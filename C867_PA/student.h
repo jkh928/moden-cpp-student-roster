@@ -1,3 +1,10 @@
+/*
+* Student: Josh Hasam
+* ID: 012723312
+* Course: C867 - Scripting & Programming Applications
+* Language: C++
+*/
+
 #ifndef STUDENT_H
 #define STUDENT_H
 

@@ -18,7 +18,7 @@ private:
 
 public:
 	//Requirement E2c: Constructor
-	Student(std::string studentID, std::string firstName, std::string lastName, std::string emailAddress, int age, int daysToComplete[], DegreeProgram degreeProgram);
+	Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& emailAddress, int age, int daysToComplete[], DegreeProgram degreeProgram);
 
 	//Requirement E2a: Accessors (Getters)
 	std::string GetStudentID();
@@ -30,10 +30,10 @@ public:
 	DegreeProgram GetDegreeProgram();
 
 	//Requirement E2b: Mutators (Setters)
-	void SetStudentID(std::string studentID);
-	void SetFirstName(std::string firstName);
-	void SetLastName(std::string lastName);
-	void SetEmailAddress(std::string emailAddress);
+	void SetStudentID(const std::string& studentID);
+	void SetFirstName(const std::string& firstName);
+	void SetLastName(const std::string& lastName);
+	void SetEmailAddress(const std::string& emailAddress);
 	void SetAge(int age);
 	void SetDaysToComplete(int daysToComplete[]);
 	void SetDegreeProgram(DegreeProgram degreeProgram);

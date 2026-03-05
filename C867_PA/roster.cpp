@@ -20,6 +20,7 @@ Roster::Roster() {
 
 // Requirement F5: Destructor (Releasing memory to prevent leaks)
 Roster::~Roster() {
+	cout << "Destructor: Releasing memory for all students..." << endl;
 	for (int i = 0; i <= lastIndex; i++) {
 		if (classRosterArray[i] != nullptr) {
 			delete classRosterArray[i];

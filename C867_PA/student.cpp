@@ -1,3 +1,10 @@
+/*
+* Student: Josh Hasam
+* ID: 012723312
+* Course: C867 - Scripting & Programming Applications
+* Language: C++
+*/
+
 #include <iostream>
 #include <string>
 #include "student.h"
@@ -5,12 +12,12 @@
 using namespace std;
 
 // Requirement E2c: Constructor using all input parameters from the table
-Student::Student(const string& studentID, const string& firstName, const string& lastName, const string& emailAddress, int age, int daysToComplete[], DegreeProgram degreeProgram)
+Student::Student(const string& studentID, const string& firstName, const string& lastName, const string& emailAddress, int age, int daysInCourse[], DegreeProgram degreeProgram)
     : studentID(studentID), firstName(firstName), lastName(lastName), emailAddress(emailAddress), age(age), degreeProgram(degreeProgram)
     {
     // Using a loop to copy array elements
         for (int i = 0; i < 3; ++i) {
-            this->daysToComplete[i] = daysToComplete[i];
+            this->daysInCourse[i] = daysInCourse[i];
         }
 }
 
@@ -36,8 +43,8 @@ int Student::GetAge() {
 }
 
 // Returns a pointer to the array (Competency 4048.2.5)
-int* Student::GetDaysToComplete() {
-    return this->daysToComplete;
+int* Student::GetDaysInCourse() {
+    return this->daysInCourse;
 }
 
 DegreeProgram Student::GetDegreeProgram() {
@@ -66,9 +73,9 @@ void Student::SetAge(int age) {
     this->age = age;
 }
 
-void Student::SetDaysToComplete(int daysToComplete[]) {
+void Student::SetDaysInCourse(int daysInCourse[]) {
     for (int i = 0; i < 3; ++i) {
-        this->daysToComplete[i] = daysToComplete[i];
+        this->daysInCourse[i] = daysInCourse[i];
     }
 }
 
@@ -84,7 +91,7 @@ void Student::print() {
     cout << "Last Name: " << this->lastName << "\t";
     cout << "Age: " << this->age << "\t";
     // 2. Format the days array output
-    cout << "daysInCourse: {" << this->daysToComplete[0] << ", " << this->daysToComplete[1] << ", " << this->daysToComplete[2] << "}\t";
+    cout << "daysInCourse: {" << this->daysInCourse[0] << ", " << this->daysInCourse[1] << ", " << this->daysInCourse[2] << "}\t";
     cout << "Degree Program: ";
     // 3. Convert the enum to a string for printing
     if (this->degreeProgram == SECURITY) cout << "Security";

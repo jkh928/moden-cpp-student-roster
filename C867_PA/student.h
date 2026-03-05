@@ -20,12 +20,12 @@ private:
 	std::string lastName;
 	std::string emailAddress;
 	int age;
-	int daysToComplete[3]; //Array of 3 integers
+	int daysInCourse[3]; //Array of 3 integers
 	DegreeProgram degreeProgram;
 
 public:
 	//Requirement E2c: Constructor
-	Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& emailAddress, int age, int daysToComplete[], DegreeProgram degreeProgram);
+	Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& emailAddress, int age, int daysInCourse[], DegreeProgram degreeProgram);
 
 	//Requirement E2a: Accessors (Getters)
 	std::string GetStudentID();
@@ -33,7 +33,7 @@ public:
 	std::string GetLastName();
 	std::string GetEmailAddress();
 	int GetAge();
-	int* GetDaysToComplete(); //Returns a pointer to the array
+	int* GetDaysInCourse(); //Returns a pointer to the array
 	DegreeProgram GetDegreeProgram();
 
 	//Requirement E2b: Mutators (Setters)
@@ -42,7 +42,7 @@ public:
 	void SetLastName(const std::string& lastName);
 	void SetEmailAddress(const std::string& emailAddress);
 	void SetAge(int age);
-	void SetDaysToComplete(int daysToComplete[]);
+	void SetDaysInCourse(int daysInCourse[]);
 	void SetDegreeProgram(DegreeProgram degreeProgram);
 
 	//Requirement E2d: Print function

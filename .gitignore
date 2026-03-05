@@ -1,6 +1,23 @@
 ﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+# Visual Studio Build and Metadata ignores
 ################################################################################
 
-/C867_PA/.vs
-/.vs
+# IDE Metadata
+.vs/
+*.sln.dotsettings.user
+*.user
+
+# Build Artifacts
+[Xx]64/
+[Dd]ebug/
+[Rr]elease/
+
+# Specific file types to ignore
+*.exe
+*.out
+*.obj
+*.pdb
+*.log
+*.tlog
+*.lastbuildstate
+

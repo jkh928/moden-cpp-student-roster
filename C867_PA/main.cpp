@@ -12,7 +12,7 @@
 using namespace std;
 
 int main() {
-	// Requirement F1: Personal Information
+	// Requirement F1: Personal Information Header
 	cout << "Course Title: C867 - Scripting and Programming Applications" << endl;
 	cout << "Language Used: C++" << endl;
 	cout << "WGU Student ID: 012723312" << endl;
@@ -27,5 +27,46 @@ int main() {
 		"A5,Josh,Hasam,jhasam2@wgu.edu,37,21,14,32,SOFTWARE"
 	};
 
+	// Requirement F2: Create instance of Roster class
+	Roster classRoster;
+
+	// Requirement F3: Parse and add each student to the roster
+	for (int i = 0; i < 5; i++) {
+		classRoster.parse(studentData[i]);
+	}
+
+	// Requirement G: Demonstration Sequence
+	cout << "Displaying all students:" << endl;
+	classRoster.printAll();
+	cout << endl;
+
+	classRoster.printInvalidEmails();
+
+	cout << "Displaying average days in course:" << endl;
+	// Requirement G: Loop through the table to call for each student
+	for (int i = 0; i < 5; i++) {
+		// Pull the ID (first 2 characters) from the string table
+		string currentID = studentData[i].substr(0, 2);
+		classRoster.printAverageDaysInCourse(currentID);
+	}
+	cout << endl;
+
+	cout << "Showing students in degree program: SOFTWARE" << endl;
+	classRoster.printByDegreeProgram(SOFTWARE);
+	cout << endl;
+
+	cout << "Removing A3:" << endl;
+	classRoster.remove("A3");
+	cout << endl;
+
+	cout << "Verifying removal of A3 (printAll):" << endl;
+	classRoster.printAll();
+	cout << endl;
+
+	cout << "Attempting to remove A3 again:" << endl;
+	classRoster.remove("A3");
+	cout << endl;
+
+	// Requirement F5: Destructor is called automatically when main returns
 	return 0;
 }

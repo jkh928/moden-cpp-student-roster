@@ -24,7 +24,8 @@ I transitioned this codebase from legacy "C-style" patterns to professional-grad
 ---
 
 ## 📊 Final Output Preview
-<img width="1862" height="938" alt="Screenshot 2026-05-10 200849" src="https://github.com/user-attachments/assets/dd091274-f296-46c1-89f5-00320d3924cb" />
+<img width="1862" height="938" alt="590168018-dd091274-f296-46c1-89f5-00320d3924cb" src="https://github.com/user-attachments/assets/24ec0d53-ac42-4781-925b-82c4d8897715" />
+
 
 
 ---

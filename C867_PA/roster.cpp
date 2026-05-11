@@ -8,102 +8,64 @@
 #include "roster.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
 // Requirement F1: Constructor
-Roster::Roster() {
-	for (int i = 0; i < numStudents; ++i) {
-		classRosterArray[i] = nullptr;
-	}
-}
+Roster::Roster() {}
 
 // Requirement F5: Destructor (Releasing memory to prevent leaks)
-Roster::~Roster() {
-	cout << "Destructor: Releasing memory for all students..." << endl;
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr) {
-			delete classRosterArray[i];
-			classRosterArray[i] = nullptr;
-		}
-	}
-}
+Roster::~Roster() {} // With unique_ptr, memory is automatically managed, so we don't need to manually delete anything here.
 
 // Requirement F3: Define the add method
 void Roster::add(string studentID, string firstName, string lastName, string emailAddress, int age, int daysInCourse1, int daysInCourse2, int daysInCourse3, DegreeProgram degreeprogram) {
-	if (lastIndex < numStudents - 1) {
-		int daysArray[3] = { daysInCourse1, daysInCourse2, daysInCourse3 };
-		classRosterArray[++lastIndex] = new Student(studentID, firstName, lastName, emailAddress, age, daysArray, degreeprogram);
-	}
+	std::array<int, 3> daysInCourse = { daysInCourse1, daysInCourse2, daysInCourse3 };
+	classRosterVector.push_back(std::make_unique<Student>(studentID, firstName, lastName, emailAddress, age, daysInCourse, degreeprogram));
 }
 
 // Requirement E3: Parse method
-void Roster::parse(string studentData) {
-	size_t rhs = studentData.find(",");
-	string sID = studentData.substr(0, rhs);
+void Roster::parse(string row) {
+	stringstream ss(row);
+	string tokens[9];
+	string temp;
+	int i = 0;
 
-	size_t lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	string sFirst = studentData.substr(lhs, rhs - lhs);
+	// Split the string by commas and store in tokens array
+	while (getline(ss, temp, ',') && i < 9) {
+		tokens[i++] = temp;
+	}
+	// Convert degree program string to enum
+	DegreeProgram degreeProgram = SOFTWARE;
+	if (tokens[8] == "SECURITY") degreeProgram = SECURITY;
+	else if (tokens[8] == "NETWORK") degreeProgram = NETWORK;
 
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	string sLast = studentData.substr(lhs, rhs - lhs);
-
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	string sEmail = studentData.substr(lhs, rhs - lhs);
-
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	int sAge = stoi(studentData.substr(lhs, rhs - lhs));
-
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	int d1 = stoi(studentData.substr(lhs, rhs - lhs));
-
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	int d2 = stoi(studentData.substr(lhs, rhs - lhs));
-
-	lhs = rhs + 1;
-	rhs = studentData.find(",", lhs);
-	int d3 = stoi(studentData.substr(lhs, rhs - lhs));
-
-	lhs = rhs + 1;
-	string sDegreeStr = studentData.substr(lhs);
-	DegreeProgram sDegree = SOFTWARE;
-	if (sDegreeStr == "SECURITY") sDegree = SECURITY;
-	else if (sDegreeStr == "NETWORK") sDegree = NETWORK;
-
-	add(sID, sFirst, sLast, sEmail, sAge, d1, d2, d3, sDegree);
+	add(tokens[0], tokens[1], tokens[2], tokens[3], stoi(tokens[4]), stoi(tokens[5]), stoi(tokens[6]), stoi(tokens[7]), degreeProgram);
 }
 
 // Requirement F4: printAll
 void Roster::printAll() {
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr) {
-			classRosterArray[i]->print();
-		}
+	for (const auto& student : classRosterVector) {
+		student->print();
 	}
 }
 
 // Requirement F4: printAverageDaysInCourse
 void Roster::printAverageDaysInCourse(string studentID) {
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr && classRosterArray[i]->GetStudentID() == studentID) {
-			int* days = classRosterArray[i]->GetDaysInCourse();
-			cout << "Student ID: " << studentID << ", average days in course: " << (days[0] + days[1] + days[2]) / 3 << endl;
+	for (const auto& student : classRosterVector) {
+		if (student->GetStudentID() == studentID) {
+			auto& days = student->GetDaysInCourse();
+			cout << "Student ID: " << studentID << ", average days in course: " << (days[0] + days[1] + days[2]) / 3.0 << endl;
 			return;
-		}
+			}
 	}
 }
 
 // Requirement F4: printByDegreeProgram
 void Roster::printByDegreeProgram(DegreeProgram degreeProgram) {
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr && classRosterArray[i]->GetDegreeProgram() == degreeProgram) {
-			classRosterArray[i]->print();
+	for (const auto& student : classRosterVector) {
+		if (student->GetDegreeProgram() == degreeProgram) {
+			student->print();
 		}
 	}
 }
@@ -111,33 +73,30 @@ void Roster::printByDegreeProgram(DegreeProgram degreeProgram) {
 // Requirement F4: printInvalidEmails
 void Roster::printInvalidEmails() {
 	cout << "Displaying invalid emails:" << endl;
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr) {
-			string email = classRosterArray[i]->GetEmailAddress();
-			if (email.find('@') == string::npos || email.find('.') == string::npos || email.find(' ') != string::npos) {
-				cout << email << " - is invalid." << endl;
+	for (const auto& student : classRosterVector) {
+		string email = student->GetEmailAddress();
+		// Check for invalid email conditions
+		if (email.find('@') == string::npos || email.find('.') == string::npos || email.find(' ') != string::npos) {
+			cout << email << " is invalid." << endl;
 			}
 		}
 	}
-	cout << endl;
-}
 
 // Requirement E3b: Remove method (with shift and shrink logic)
 void Roster::remove(string studentID) {
 	bool found = false;
-	for (int i = 0; i <= lastIndex; i++) {
-		if (classRosterArray[i] != nullptr && classRosterArray[i]->GetStudentID() == studentID) {
+	for (auto it = classRosterVector.begin(); it != classRosterVector.end(); ) {
+		if ((*it)->GetStudentID() == studentID) {
+			it = classRosterVector.erase(it); // Automatically shifts and shrinks the vector
 			found = true;
-			delete classRosterArray[i];
+			cout << "Student with ID " << studentID << " has been removed." << endl;
 
-			for (int j = i; j < lastIndex; j++) {
-				classRosterArray[j] = classRosterArray[j + 1];
-			}
-			classRosterArray[lastIndex] = nullptr;
-			lastIndex--;
-			cout << "Student " << studentID << " removed." << endl;
-			return;
+		}
+		else {
+			++it; // Move to the next element only if not erasing
 		}
 	}
-	if (!found) cout << "The student with the ID: " << studentID << " was not found." << endl;
-}
+		if (!found) {
+			cout << "The student with the ID " << studentID << " was not found." << endl;
+		}
+	}

@@ -5,50 +5,46 @@
 * Language: C++
 */
 
-#include <iostream>
-#include <string>
+#include<iomanip>
 #include "student.h"
 
 using namespace std;
 
 // Requirement E2c: Constructor using all input parameters from the table
-Student::Student(const string& studentID, const string& firstName, const string& lastName, const string& emailAddress, int age, int daysInCourse[], DegreeProgram degreeProgram)
-	: studentID(studentID), firstName(firstName), lastName(lastName), emailAddress(emailAddress), age(age), degreeProgram(degreeProgram)
+Student::Student(const string& studentID, const string& firstName, const string& lastName, const string& emailAddress, int age, const std::array<int, 3>& days, DegreeProgram degreeProgram)
+	: studentID(studentID), firstName(firstName), lastName(lastName), emailAddress(emailAddress), age(age), daysInCourse(days), degreeProgram(degreeProgram)
 {
-	// Using a loop to copy array elements
-	for (int i = 0; i < 3; ++i) {
-		this->daysInCourse[i] = daysInCourse[i];
-	}
+	
 }
 
 // Requirement E2a: Accessors (Getters)
-string Student::GetStudentID() {
-	return this->studentID;
+string Student::GetStudentID() const {
+	return studentID;
 }
 
-string Student::GetFirstName() {
-	return this->firstName;
+string Student::GetFirstName() const {
+	return firstName;
 }
 
-string Student::GetLastName() {
-	return this->lastName;
+string Student::GetLastName() const {
+	return lastName;
 }
 
-string Student::GetEmailAddress() {
-	return this->emailAddress;
+string Student::GetEmailAddress() const {
+	return emailAddress;
 }
 
-int Student::GetAge() {
-	return this->age;
+int Student::GetAge() const {
+	return age;
 }
 
 // Returns a pointer to the array (Competency 4048.2.5)
-int* Student::GetDaysInCourse() {
-	return this->daysInCourse;
+const std::array<int, 3>& Student::GetDaysInCourse() const {
+	return daysInCourse;
 }
 
-DegreeProgram Student::GetDegreeProgram() {
-	return this->degreeProgram;
+DegreeProgram Student::GetDegreeProgram() const {
+	return degreeProgram;
 }
 
 
@@ -73,9 +69,9 @@ void Student::SetAge(int age) {
 	this->age = age;
 }
 
-void Student::SetDaysInCourse(int daysInCourse[]) {
+void Student::SetDaysInCourse(const std::array<int, 3>& daysInCourse) {
 	for (int i = 0; i < 3; ++i) {
-		this->daysInCourse[i] = daysInCourse[i];
+		this->daysInCourse = daysInCourse;
 	}
 }
 
@@ -84,18 +80,22 @@ void Student::SetDegreeProgram(DegreeProgram degreeProgram) {
 }
 
 // Requirement E2d: Print specific student data in the required format
-void Student::print() {
-	// 1. Format the output with tabs (\t)
-	cout << this->studentID << "\t";
-	cout << "First Name: " << this->firstName << "\t";
-	cout << "Last Name: " << this->lastName << "\t";
-	cout << "Age: " << this->age << "\t";
+void Student::print() const {
+	// 1. Set fixed widths for each columns to ensure perfect alignment
+	cout << left << setw(6) << studentID;
+	cout << "First Name: " << left << setw(12) << firstName;
+	cout << "Last Name: " << left << setw(12) << lastName;
+	cout << "Age: " << setw(6) << age;
+	
 	// 2. Format the days array output
-	cout << "daysInCourse: {" << this->daysInCourse[0] << ", " << this->daysInCourse[1] << ", " << this->daysInCourse[2] << "}\t";
-	cout << "Degree Program: ";
+	cout << "daysInCourse: {" << daysInCourse[0] << ", " << daysInCourse[1] << ", " << daysInCourse[2] << "}";
+	
 	// 3. Convert the enum to a string for printing
-	if (this->degreeProgram == SECURITY) cout << "Security";
-	else if (this->degreeProgram == NETWORK) cout << "Network";
-	else if (this->degreeProgram == SOFTWARE) cout << "Software";
+	cout << left << setw(10) << "" << "Degree Program: ";
+
+	if (degreeProgram == SECURITY) cout << "Security";
+	else if (degreeProgram == NETWORK) cout << "Network";
+	else cout << "Software";
+
 	cout << endl;
 }

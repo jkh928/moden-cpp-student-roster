@@ -6,15 +6,16 @@
 */
 
 #pragma once
+#include <vector>
+#include <memory> // Required for unique_ptr
+#include <string>
 #include "student.h"
 
 class Roster {
-public:
-	int lastIndex = -1;
-	const static int numStudents = 5;
-	// Requirement F1: Array of pointers to hold student data
-	Student* classRosterArray[numStudents];
+private:
+	std::vector<std::unique_ptr<Student>> classRosterVector; // Using vector of unique_ptr for automatic memory management
 
+public:
 	// Requirement F5: Constructor and Destructor
 	Roster();
 	~Roster();
@@ -29,7 +30,7 @@ public:
 		int daysInCourse1,
 		int daysInCourse2,
 		int daysInCourse3,
-		DegreeProgram degreeprogram);
+		DegreeProgram degreeProgram);
 
 	// Requirement E3: Management and Print functions
 	void remove(std::string studentID);

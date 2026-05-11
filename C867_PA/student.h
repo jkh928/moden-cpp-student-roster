@@ -5,11 +5,10 @@
 * Language: C++
 */
 
-#ifndef STUDENT_H
-#define STUDENT_H
-
+#pragma once
 #include <iostream>
 #include <string>
+#include <array>
 #include "degree.h"
 
 class Student {
@@ -20,21 +19,21 @@ private:
 	std::string lastName;
 	std::string emailAddress;
 	int age;
-	int daysInCourse[3]; //Array of 3 integers
+	std::array<int, 3> daysInCourse; //Modern array
 	DegreeProgram degreeProgram;
 
 public:
 	//Requirement E2c: Constructor
-	Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& emailAddress, int age, int daysInCourse[], DegreeProgram degreeProgram);
+	Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& emailAddress, int age, const std::array<int, 3>& daysInCourse, DegreeProgram degreeProgram);
 
 	//Requirement E2a: Accessors (Getters)
-	std::string GetStudentID();
-	std::string GetFirstName();
-	std::string GetLastName();
-	std::string GetEmailAddress();
-	int GetAge();
-	int* GetDaysInCourse(); //Returns a pointer to the array
-	DegreeProgram GetDegreeProgram();
+	std::string GetStudentID() const;
+	std::string GetFirstName() const;
+	std::string GetLastName() const;
+	std::string GetEmailAddress() const;
+	int GetAge() const;
+	const std::array<int, 3>& GetDaysInCourse() const; //Returns a pointer to the array
+	DegreeProgram GetDegreeProgram() const;
 
 	//Requirement E2b: Mutators (Setters)
 	void SetStudentID(const std::string& studentID);
@@ -42,11 +41,9 @@ public:
 	void SetLastName(const std::string& lastName);
 	void SetEmailAddress(const std::string& emailAddress);
 	void SetAge(int age);
-	void SetDaysInCourse(int daysInCourse[]);
+	void SetDaysInCourse(const std::array<int, 3>& daysInCourse);
 	void SetDegreeProgram(DegreeProgram degreeProgram);
 
 	//Requirement E2d: Print function
-	void print();
+	void print() const;
 };
-
-#endif

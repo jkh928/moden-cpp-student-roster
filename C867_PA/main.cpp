@@ -41,14 +41,14 @@ int main() {
 	cout << endl;
 
 	classRoster.printInvalidEmails();
+	cout << endl;
 
 	cout << "Displaying average days in course:" << endl;
-	// Requirement G: Loop through the table to call for each student
-	for (int i = 0; i < 5; i++) {
-		// Pull the ID (first 2 characters) from the string table
-		string currentID = studentData[i].substr(0, 2);
-		classRoster.printAverageDaysInCourse(currentID);
-	}
+	classRoster.printAverageDaysInCourse("A1");
+	classRoster.printAverageDaysInCourse("A2");
+	classRoster.printAverageDaysInCourse("A3");
+	classRoster.printAverageDaysInCourse("A4");
+	classRoster.printAverageDaysInCourse("A5");
 	cout << endl;
 
 	cout << "Showing students in degree program: SOFTWARE" << endl;

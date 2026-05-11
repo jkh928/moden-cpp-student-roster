@@ -5,10 +5,9 @@
 * Language: C++
 */
 
-#ifndef DEGREE_H
-#define DEGREE_H
+#pragma once
 
 //Requirement D: Enumerated data type
 enum DegreeProgram { SECURITY, NETWORK, SOFTWARE };
 
-#endif
+
